@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Human support</title><meta name="robots" content="noindex"><link rel="stylesheet" href="chat.css"></head>
+<body><main class="wrap">
+<div class="top"><h1>Human support <span class="xp-tag">Experimental</span></h1><p class="sub">Only you and our team can see this conversation. Messages are saved and read by a person.</p></div>
+<div id="stage"></div>
+</main>
+<script src="chat-ui.js"></script>
+<script>
+(function () {
+  var h = CU.h, SEEN = "hs_seen", GATE = "hs_gate", app = CU.scene({closeHref:"/support",closeLabel:"Back to support"});
+  document.getElementById("stage").appendChild(app.root);
+  var store = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} } };
+  function gate() {
+    var box = h("div", "chat"), g = h("div", "gate"), ask = h("a", "btn g", "Ask our AI"), alt = h("button", "alt", "Talk to a person anyway");
+    ask.href = "/support"; ask.style.textAlign = "center"; ask.style.textDecoration = "none"; alt.type = "button";
+    g.append(h("h2", "", "Ask our AI first"), h("p", "", "It can solve most things instantly. If it can't, a person will pick it up."), ask, alt);
+    alt.onclick = function () { store.set(GATE, "1"); app.textContent = ""; chat(); };
+    box.append(g); app.appendChild(box);
+  }
+  function chat() {
+    var box = h("div", "chat"), hd = h("div", "hd"), thread = h("div", "thread"), alias = null, last = 0, timer = null;
+    hd.append(CU.bell(false), h("span", "", "Human support"), h("span", "grow"));
+    var tip = h("div", "tip", "You'll get a random name when you send your first message. Bookmark this page to see replies.");
+    var comp = CU.composer({ max: 1000, placeholder: "Write a message…", onSend: function (t) {
+      return CU.api("/api/human/send", { method: "POST", body: { body: t } }).then(apply); } });
+    box.append(hd, thread, comp.root); app.appendChild(box);
+    function who(m) { return m.sender === "operator" ? { name: "Support", av: CU.supportAvatar(30) }
+      : { name: alias ? alias.name : "You", av: CU.avatar(alias && alias.avatar, 30) }; }
+    function apply(d) {
+      if (!d) return; if (d.alias) alias = d.alias;
+      var ms = d.messages || []; if (!ms.length) { thread.textContent = ""; thread.appendChild(tip); return; }
+      CU.renderThread(thread, ms, who); last = ms[ms.length - 1].id;
+      var op = ms.filter(function (m) { return m.sender === "operator"; }).pop();
+      if (op) try { localStorage.setItem(SEEN, String(op.id)); } catch (e) {}
+    }
+    function poll() { CU.api("/api/human/messages").then(apply).catch(function () {}); }
+    poll(); timer = setInterval(function () { if (!document.hidden) poll(); }, 4000);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) poll(); });
+    comp.focus();
+  }
+  // Returning visitors with a conversation skip the gate.
+  if (store.get(GATE)) return chat();
+  CU.api("/api/human/messages").then(function (d) { if (d && d.messages && d.messages.length) chat(); else gate(); }).catch(gate);
+})();
+</script></body></html>

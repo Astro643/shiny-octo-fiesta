@@ -1,0 +1,9 @@
+/* Extras for /support: the fourth card, the Experimental tag and the "new reply" dot.
+   Set --exp to the blue you already use for Experimental tags. */
+:root{--exp:#2F6BFF}
+.xp-tag{display:inline-block;vertical-align:middle;margin-left:8px;padding:1px 8px;border-radius:999px;background:var(--exp);color:#fff;font:600 11px/1.6 "JetBrains Mono",ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase}
+.hs-dot{display:inline-block;width:8px;height:8px;margin-left:8px;border-radius:50%;background:#2EE6A0;vertical-align:middle}
+.hs-dot[hidden]{display:none}
+.grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.grid{grid-template-columns:minmax(0,1fr)}}

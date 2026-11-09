@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#EEEDE8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2.5 5h19L12 20.5z' fill='%23000'/%3E%3C/svg%3E">
+<title>Support · Controller</title>
+<meta name="description" content="Get help, fix common problems and reach us.">
+<link rel="stylesheet" href="/site.css?v=1755d10d">
+<link rel="stylesheet" href="/support-extras.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 5h19L12 20.5z" fill="currentColor"/></svg>Controller</a>
+    <nav aria-label="Main">
+      <a href="/how-it-works" class="">How it works</a>
+      <a href="/faq" class="">FAQ</a>
+      <a href="/support" class="on">Support</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="/dashboard">Open Console</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="wrap">
+
+  <div class="page">
+    <h1>Support</h1>
+    <p class="lead">Fix a common problem in a minute, ask our AI assistant, or talk to a real person.</p>
+  </div>
+
+  <section class="block" style="padding-top:44px">
+    <div class="grid">
+      <div class="card"><div class="bar"></div><h3>Ask the AI assistant</h3><p>Instant answers any time of day, written by AI.</p>
+        <p style="margin-top:16px"><button class="btn btn-primary btn-sm" type="button" data-open-support>Start a chat</button></p></div>
+      <div class="card"><div class="bar"></div><h3>Live system status</h3><p>See whether Agents 1, 2 and 3 and the support assistant are running. Open the chat button in the corner and look at the Home tab.</p>
+        <p style="margin-top:16px"><button class="btn btn-sm" type="button" data-open-support>See status</button></p></div>
+      <div class="card"><div class="bar"></div><h3>Read first</h3><p>Most answers are in the <a href="/faq" style="color:var(--green-ink)">FAQ</a> and the <a href="/how-it-works" style="color:var(--green-ink)">walkthrough</a>.</p></div>
+      <div class="card"><div class="bar"></div><h3>Human support <span class="xp-tag">Experimental</span></h3><p>Want a real person? Start a chat and we&rsquo;ll get back to you within 24 hours.</p>
+        <p style="margin-top:16px"><a class="btn btn-sm" href="/human-support">Start a chat<span class="hs-dot" id="hs-dot" hidden></span></a></p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="head"><h2>Common problems</h2></div>
+    <div class="faq" style="margin-top:0">
+      <details>
+        <summary>The <span class="mono">/dashboard</span> command does not appear</summary>
+        <div class="ans"><p>New commands can take a few minutes to show up after the bot starts. Check that the bot is online and in your server, then type <span class="mono">/</span> and look again. Restarting Discord can also help.</p></div>
+      </details>
+      <details>
+        <summary>My magic link says it was already used or expired</summary>
+        <div class="ans"><p>Links work once and expire after 15 minutes. Run <span class="mono">/dashboard</span> again for a fresh one. Chat apps that preview links do not use them up, but opening the link twice does.</p></div>
+      </details>
+      <details>
+        <summary>A request shows Failed with a permissions error</summary>
+        <div class="ans"><p>Open Server Settings &rarr; Roles and drag the bot&rsquo;s role above the roles of the members you want it to act on. Make sure it has the permission needed for the action, or Administrator.</p></div>
+      </details>
+      <details>
+        <summary>It says no member was found, or several match</summary>
+        <div class="ans"><p>Use the person&rsquo;s user ID instead of their name. In Discord, turn on Developer Mode, then right-click the member and choose Copy User ID.</p></div>
+      </details>
+      <details>
+        <summary>It was rejected by the audit but my request seems fine</summary>
+        <div class="ans"><p>The reason is shown under the request. The most common cause is wording that is too vague, such as &ldquo;ban the bad people&rdquo;. Name the exact people, channels or roles and send it again.</p></div>
+      </details>
+      <details>
+        <summary>The session ended while I was working</summary>
+        <div class="ans"><p>Sessions last 12 hours. Run <span class="mono">/dashboard</span> again to sign back in.</p></div>
+      </details>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="/" style="padding:0"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 5h19L12 20.5z" fill="currentColor"/></svg>Controller</a>
+        <p>Agentic infrastructure for Discord. Agents plan it, workflows run it, your bot does it.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="/how-it-works">How it works</a>
+        <a href="/faq">FAQ</a>
+        <a href="/dashboard">Console</a>
+        <a href="#" rel="noopener" data-invite-only hidden>Add to Discord</a>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <a href="/support">Support</a>
+        <a href="#" rel="noopener" data-support-url hidden>Discord server</a>
+        <a href="#" data-support-email hidden></a>
+        <a href="/team">Team sign in</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; <span data-year>2026</span> Controller</span>
+      <span>Not affiliated with or endorsed by Discord Inc.</span>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<div id="sw">
+  <button class="sw-launch" id="sw-launch" type="button" aria-label="Open support and system status" aria-expanded="false" aria-controls="sw-panel">
+    <svg class="ico-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M8.5 10.2c1 1.5 2.1 2.2 3.5 2.2s2.5-.7 3.5-2.2"/></svg>
+    <svg class="ico-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg>
+    <span class="sw-dot" id="sw-dot"></span>
+  </button>
+
+  <div class="sw-panel" id="sw-panel" role="dialog" aria-label="Support" aria-hidden="true">
+
+    <section class="sw-view on" id="sw-home">
+      <div class="sw-hero">
+        <div class="sw-brand"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 5h19L12 20.5z" fill="currentColor"/></svg>Controller</div>
+        <button class="sw-x" type="button" data-sw-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <h3 class="sw-hello">Hi there<br>How can we help?</h3>
+      </div>
+      <div class="sw-body">
+        <div class="sw-card">
+          <div class="sw-card-h"><b>System status</b><span id="sw-updated"></span></div>
+          <div class="sw-overall">
+            <span class="sw-ico" id="sw-ico"></span>
+            <div><b id="sw-label">Checking status&hellip;</b><small id="sw-sub">Live status of every part of Controller</small></div>
+          </div>
+          <div class="sw-list" id="sw-list"></div>
+        </div>
+        <div class="sw-card sw-ask">
+          <b>Ask our AI assistant</b>
+          <p>Instant answers, any time. Replies are written by AI, not by people.</p>
+          <button class="sw-btn" type="button" id="sw-ask">Start a chat</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="sw-view" id="sw-messages">
+      <div class="sw-bar">
+        <div style="display:block"><b>AI Support</b><small>Answers are written by AI</small></div>
+        <div>
+          <button class="sw-ib" type="button" id="sw-new" aria-label="New chat" title="New chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button class="sw-ib" type="button" data-sw-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+      </div>
+      <div class="sw-thread" id="sw-thread" aria-live="polite"></div>
+      <div class="sw-note">AI can make mistakes. For anything important, check the FAQ.</div>
+      <form class="sw-form" id="sw-form" autocomplete="off">
+        <input id="sw-input" type="text" maxlength="600" placeholder="Ask a question" aria-label="Your question">
+        <button class="sw-send" id="sw-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+      </form>
+    </section>
+
+    <nav class="sw-tabs" aria-label="Support sections">
+      <button class="sw-tab on" type="button" id="sw-tab-home" data-tab="home"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" fill="none" aria-hidden="true"><path d="M4 11.2 12 4.8l8 6.4V19a1 1 0 0 1-1 1h-4.2v-5.2H9.2V20H5a1 1 0 0 1-1-1z"/></svg>Home</button>
+      <button class="sw-tab" type="button" id="sw-tab-messages" data-tab="messages"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" fill="none" aria-hidden="true"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>Messages</button>
+    </nav>
+  </div>
+</div>
+
+
+
+<script src="/config.js"></script>
+<script src="/widget.js?v=71461157" defer></script>
+<script src="/site.js?v=360077ea" defer></script>
+<script src="/human-dot.js" defer></script>
+</body>
+</html>

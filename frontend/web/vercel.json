@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://special-octo-discouvicorn-main-app-host.onrender.com/api/:path*" },
+    { "source": "/login", "destination": "https://special-octo-discouvicorn-main-app-host.onrender.com/login" },
+    { "source": "/support", "destination": "/support.html" },
+    { "source": "/faq", "destination": "/faq.html" },
+    { "source": "/how-it-works", "destination": "/how-it-works.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/team", "destination": "/team.html" },
+    { "source": "/human-support", "destination": "/human-support.html" }
+  ]
+}

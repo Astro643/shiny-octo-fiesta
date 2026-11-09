@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team</title><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="chat.css"></head>
+<body><main class="wrap">
+<div class="top"><h1>Team</h1><p class="sub">Support inbox</p></div>
+<div id="stage"></div></main>
+<script src="chat-ui.js"></script>
+<script>
+(function () {
+  var h = CU.h, timer = null, app = CU.scene({closeHref:"/",closeLabel:"Back to site"});
+  document.getElementById("stage").appendChild(app.root);
+  function stop() { if (timer) clearInterval(timer); timer = null; }
+  function every(ms, fn) { stop(); timer = setInterval(function () { if (!document.hidden) fn(); }, ms); }
+
+  function login() {
+    stop(); app.textContent = "";
+    var box = h("div", "chat"), hd = h("div", "hd"), f = h("form", "form"), err = h("div", "err"), u = h("input"), p = h("input"), go = h("button", "btn g", "Sign in");
+    hd.append(CU.bell(false), h("span", "", "Team sign in"));
+    err.hidden = true; u.autocomplete = "username"; u.required = true; p.type = "password"; p.autocomplete = "current-password"; p.required = true; go.type = "submit";
+    function field(l, i) { var d = h("div"), lb = h("label", "", l); i.setAttribute("aria-label", l); d.append(lb, i); return d; }
+    f.append(field("Username", u), field("Password", p), err, go);
+    f.onsubmit = function (e) { e.preventDefault(); go.disabled = true; err.hidden = true;
+      CU.api("/api/operator/login", { method: "POST", body: { username: u.value, password: p.value } }).then(inbox)
+        .catch(function (x) { err.textContent = x.status === 429 ? "Too many attempts. Try again later." : "Wrong username or password."; err.hidden = false; go.disabled = false; p.value = ""; }); };
+    box.append(hd, f); app.appendChild(box); u.focus();
+  }
+
+  var tab = "unanswered";
+  function kind(c) { return c.status === "closed" ? "closed" : (c.last_sender === "visitor" ? "unanswered" : "answered"); }
+  function inbox() {
+    stop(); app.textContent = "";
+    var box = h("div", "chat"), hd = h("div", "hd"), chans = h("div", "chans"), list = h("div", "list"), out = h("button", "", "Sign out"), convs = [];
+    var anyUnread = false; hd.append(CU.bell(true), h("span", "", "Inbox"), h("span", "grow"), out);
+    out.type = "button"; out.onclick = function () { CU.api("/api/operator/logout", { method: "POST" }).catch(function () {}).then(login); };
+    box.append(hd, chans, list); app.appendChild(box);
+    function draw() {
+      chans.textContent = ""; list.textContent = "";
+      ["unanswered", "answered", "closed"].forEach(function (k) {
+        var n = convs.filter(function (c) { return kind(c) === k; }).length, b = h("button", "chan" + (k === tab ? " sel" : ""));
+        b.type = "button"; b.append(h("span", "", "# " + k), h("span", "grow"), h("span", "cnt" + (k === "unanswered" && n ? " on" : ""), String(n)));
+        b.onclick = function () { tab = k; draw(); }; chans.appendChild(b); });
+      var shown = convs.filter(function (c) { return kind(c) === tab; });
+      if (!shown.length) list.appendChild(h("div", "empty", "Nothing here."));
+      shown.forEach(function (c) {
+        var r = h("button", "conv"), tx = h("div", "tx");
+        r.type = "button"; tx.append(h("b", "", c.alias.name), h("small", "", c.preview || ""));
+        r.append(CU.avatar(c.alias.avatar, 34), tx);
+        if (c.unread > 0) r.appendChild(h("span", "dot")); r.onclick = function () { thread(c); }; list.appendChild(r); });
+    }
+    function load() { CU.api("/api/operator/inbox").then(function (d) { convs = d.conversations || []; draw(); })
+      .catch(function (x) { if (x.status === 401) login(); }); }
+    load(); every(5000, load);
+  }
+
+  function thread(c) {
+    stop(); app.textContent = "";
+    var box = h("div", "chat"), hd = h("div", "hd"), back = h("button", "", "← Inbox"), tg = h("button", ""), box2 = h("div", "thread"), status = c.status;
+    back.type = "button"; tg.type = "button"; back.onclick = inbox;
+    hd.append(back, CU.avatar(c.alias.avatar, 26), h("span", "", c.alias.name), h("span", "grow"), tg);
+    function label() { tg.textContent = status === "closed" ? "Reopen" : "Close"; }
+    label(); tg.onclick = function () { var next = status === "closed" ? "open" : "closed";
+      CU.api("/api/operator/status/" + c.id, { method: "POST", body: { status: next } }).then(function () { status = next; label(); }).catch(function () {}); };
+    function who(m) { return m.sender === "operator" ? { name: "You", av: CU.supportAvatar(30) } : { name: c.alias.name, av: CU.avatar(c.alias.avatar, 30) }; }
+    function load() { CU.api("/api/operator/thread/" + c.id).then(function (d) { status = d.status; label(); CU.renderThread(box2, d.messages || [], who); })
+      .catch(function (x) { if (x.status === 401) login(); }); }
+    var comp = CU.composer({ max: 2000, placeholder: "Reply to " + c.alias.name + "…", onSend: function (t) {
+      return CU.api("/api/operator/reply/" + c.id, { method: "POST", body: { body: t } }).then(load); } });
+    box.append(hd, box2, comp.root); app.appendChild(box); load(); every(3000, load); comp.focus();
+  }
+
+  // Already signed in? The inbox call tells us.
+  CU.api("/api/operator/inbox").then(inbox).catch(login);
+})();
+</script></body></html>

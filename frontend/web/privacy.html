@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#EEEDE8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2.5 5h19L12 20.5z' fill='%23000'/%3E%3C/svg%3E">
+<title>Privacy Policy · Controller</title>
+<meta name="description" content="What Controller collects, why, who it is shared with and how long it is kept.">
+<link rel="stylesheet" href="/site.css?v=1755d10d">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 5h19L12 20.5z" fill="currentColor"/></svg>Controller</a>
+    <nav aria-label="Main">
+      <a href="/how-it-works" class="">How it works</a>
+      <a href="/faq" class="">FAQ</a>
+      <a href="/support" class="">Support</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary btn-sm" href="/dashboard">Open Console</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="wrap">
+
+  <div class="page">
+    <h1>Privacy Policy</h1>
+    <p class="lead">What Controller handles, why, and for how long.</p>
+  </div>
+
+  <div class="prose">
+    <p class="updated">Last updated: October 31, 2026</p>
+
+    <h2>Who this covers</h2>
+    <p>This policy applies to the Controller Discord bot and its website (together, the &ldquo;Service&rdquo;). The Service lets a Discord server owner describe changes in plain language and have the bot carry them out.</p>
+
+    <h2>What we handle</h2>
+    <ul>
+      <li><b>Your requests.</b> The text you type into the Console.</li>
+      <li><b>Server information.</b> When a request is processed, the bot reads your server&rsquo;s name and ID, the owner&rsquo;s and bot&rsquo;s user IDs, and the names and IDs of channels and roles. When you ask for an action on a member, the bot looks that member up by name or ID.</li>
+      <li><b>Results.</b> A status for each request (such as executed or failed) and, if something failed or was rejected, an error or reason that may include names and IDs.</li>
+      <li><b>Request history and audit log.</b> The text of each request, its final status and result, and a record of irreversible actions an agent took (such as bans, kicks and deletions), stored against your server ID so you can look back and so abuse can be investigated.</li>
+      <li><b>Console session.</b> While your Console is open, which AI agent you hold and, if all are busy, your place in the waiting line, stored against your server ID. It is released shortly after you close the Console.</li>
+      <li><b>Sign-in data.</b> A temporary magic-link token and a session cookie.</li>
+      <li><b>Support chat.</b> Messages you send to the AI support assistant, plus the current system status, are used to write a reply. We do not keep them after the reply is sent; the chat history stays in your browser. To limit abuse, a salted, hashed form of your IP address is kept as a request counter for up to 24 hours.</li>
+    </ul>
+    <p>We do not read, record or store the messages members send in your server. The bot acts only on requests made through the Console.</p>
+
+    <h2>How we use it</h2>
+    <p>Only to run the Service: to check your request is safe, to turn it into steps, to carry them out on your server, and to show you the result. We do not sell your data, run advertising, or use analytics trackers.</p>
+
+    <h2>Who it is shared with</h2>
+    <ul>
+      <li><b>Google (Gemini).</b> Your request and the server information described above are sent to one of our AI agents (Google&rsquo;s Gemini models) to perform the safety check and planning. Support chat messages are sent to a separate support agent to write answers, with a backup agent if it is unavailable. Google handles that data under its own terms and privacy policy.</li>
+      <li><b>Web research.</b> When an agent researches the web, its search question is sent to Google through the Gemini service, and the answer comes back with source links.</li>
+      <li><b>Email and webhooks (only if the operator turns them on).</b> The text of an email goes to our email provider (Resend) and then to an allowed recipient. A webhook request goes from our server to a host the operator has allowed.</li>
+      <li><b>Google Fonts.</b> Pages load the Anton and JetBrains Mono typefaces from Google Fonts, so Google receives your IP address and browser details when a page loads. Google handles that data under its own privacy policy.</li>
+      <li><b>Discord.</b> The bot carries out actions on your server through Discord&rsquo;s API.</li>
+      <li><b>Inngest.</b> Each request runs as a durable background task. Inngest keeps the request&rsquo;s progress, including the results of finished steps (plan steps with names and IDs, and short summaries), so a task can wait for a scheduled step and carry on. Upstash Redis holds our live state.</li>
+      <li><b>Infrastructure providers.</b> Upstash (temporary storage), Aiven (the database that holds request history and the audit log), and our hosting providers, which run the bot and website and may keep standard technical logs such as IP address and request time.</li>
+    </ul>
+
+    <h2>How long we keep it</h2>
+    <ul>
+      <li>A request&rsquo;s one-time job record is deleted as soon as its task starts. Tasks that include a wait stay scheduled until the wait ends (at most 12 hours).</li>
+      <li>Live request statuses and error messages are deleted automatically after 24 hours.</li>
+      <li>Request history and the audit log are deleted automatically after 30 days.</li>
+      <li>Magic-link tokens are deleted when used, or after 15 minutes.</li>
+      <li>The session cookie lasts up to 12 hours. It is strictly necessary for sign-in.</li>
+      <li>Your browser keeps a list of your last 50 requests in its local storage so the Console can show them. It stays on your device, and you can clear it any time in your browser settings.</li>
+    </ul>
+
+    <h2>Security</h2>
+    <p>Sign-in uses single-use links and a signed, HTTP-only, secure cookie. Connections use HTTPS. No system is perfectly secure, so please keep your magic links private.</p>
+
+    <h2>Your choices</h2>
+    <p>You can stop all processing at any time by removing the bot from your server. To ask what is held about your server or to request deletion, contact us using the details below. You can ask us to delete the history and audit records we hold for your server at any time; otherwise they are removed automatically after 30 days.</p>
+
+    <h2>Children</h2>
+    <p>The Service is intended for people who meet Discord&rsquo;s minimum age requirement and is not directed at children.</p>
+
+    <h2>Changes</h2>
+    <p>If we change this policy, we will update the date above. Continued use after a change means you accept it.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about this policy:
+      <span data-contact><a data-support-email hidden style="color:var(--green-ink)"></a><span data-contact-or hidden> or </span><a data-support-url hidden style="color:var(--green-ink)" rel="noopener">our Discord server</a><span data-contact-none>please contact whoever operates this bot for your server.</span></span>
+    </p>
+  </div>
+
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="brand" href="/" style="padding:0"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 5h19L12 20.5z" fill="currentColor"/></svg>Controller</a>
+        <p>Agentic infrastructure for Discord. Agents plan it, workflows run it, your bot does it.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="/how-it-works">How it works</a>
+        <a href="/faq">FAQ</a>
+        <a href="/dashboard">Console</a>
+        <a href="#" rel="noopener" data-invite-only hidden>Add to Discord</a>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <a href="/support">Support</a>
+        <a href="#" rel="noopener" data-support-url hidden>Discord server</a>
+        <a href="#" data-support-email hidden></a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; <span data-year>2026</span> Controller</span>
+      <span>Not affiliated with or endorsed by Discord Inc.</span>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<div id="sw">
+  <button class="sw-launch" id="sw-launch" type="button" aria-label="Open support and system status" aria-expanded="false" aria-controls="sw-panel">
+    <svg class="ico-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M8.5 10.2c1 1.5 2.1 2.2 3.5 2.2s2.5-.7 3.5-2.2"/></svg>
+    <svg class="ico-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg>
+    <span class="sw-dot" id="sw-dot"></span>
+  </button>
+
+  <div class="sw-panel" id="sw-panel" role="dialog" aria-label="Support" aria-hidden="true">
+
+    <section class="sw-view on" id="sw-home">
+      <div class="sw-hero">
+        <div class="sw-brand"><svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 5h19L12 20.5z" fill="currentColor"/></svg>Controller</div>
+        <button class="sw-x" type="button" data-sw-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        <h3 class="sw-hello">Hi there<br>How can we help?</h3>
+      </div>
+      <div class="sw-body">
+        <div class="sw-card">
+          <div class="sw-card-h"><b>System status</b><span id="sw-updated"></span></div>
+          <div class="sw-overall">
+            <span class="sw-ico" id="sw-ico"></span>
+            <div><b id="sw-label">Checking status&hellip;</b><small id="sw-sub">Live status of every part of Controller</small></div>
+          </div>
+          <div class="sw-list" id="sw-list"></div>
+        </div>
+        <div class="sw-card sw-ask">
+          <b>Ask our AI assistant</b>
+          <p>Instant answers, any time. Replies are written by AI, not by people.</p>
+          <button class="sw-btn" type="button" id="sw-ask">Start a chat</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="sw-view" id="sw-messages">
+      <div class="sw-bar">
+        <div style="display:block"><b>AI Support</b><small>Answers are written by AI</small></div>
+        <div>
+          <button class="sw-ib" type="button" id="sw-new" aria-label="New chat" title="New chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button class="sw-ib" type="button" data-sw-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+      </div>
+      <div class="sw-thread" id="sw-thread" aria-live="polite"></div>
+      <div class="sw-note">AI can make mistakes. For anything important, check the FAQ.</div>
+      <form class="sw-form" id="sw-form" autocomplete="off">
+        <input id="sw-input" type="text" maxlength="600" placeholder="Ask a question" aria-label="Your question">
+        <button class="sw-send" id="sw-send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+      </form>
+    </section>
+
+    <nav class="sw-tabs" aria-label="Support sections">
+      <button class="sw-tab on" type="button" id="sw-tab-home" data-tab="home"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" fill="none" aria-hidden="true"><path d="M4 11.2 12 4.8l8 6.4V19a1 1 0 0 1-1 1h-4.2v-5.2H9.2V20H5a1 1 0 0 1-1-1z"/></svg>Home</button>
+      <button class="sw-tab" type="button" id="sw-tab-messages" data-tab="messages"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" fill="none" aria-hidden="true"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>Messages</button>
+    </nav>
+  </div>
+</div>
+
+
+
+<script src="/config.js"></script>
+<script src="/widget.js?v=71461157" defer></script>
+<script src="/site.js?v=360077ea" defer></script>
+</body>
+</html>
