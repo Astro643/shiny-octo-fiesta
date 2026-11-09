@@ -2,6 +2,24 @@
 
 **Combined Controller Repository** - All three tasks completed and unified
 
+## 🚀 Vercel Deployment
+
+**This project is now optimized for Vercel hosting!**
+
+✅ **Ready to deploy** - All API routes implemented as Next.js serverless functions
+✅ **Task 3 features** - Preview/dry run, generic status messages, 9-second timeout
+✅ **Full-stack** - Next.js frontend + TypeScript backend logic
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Astro643/shiny-octo-fiesta&project-name=controller&repository-name=controller)
+
+See [VERCEL.md](VERCEL.md) for detailed deployment instructions.
+
+---
+
+# Shiny Octo Fiesta
+
+**Combined Controller Repository** - All three tasks completed and unified
+
 ## 🎯 Overview
 
 This repository contains the complete Controller project with all three tasks implemented:
