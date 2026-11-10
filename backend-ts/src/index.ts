@@ -336,13 +336,19 @@ router.get('/login', (req: Request, res: Response) => {
   res.send('<h1>Login</h1><p>Use /dashboard in Discord to get a magic link.</p>');
 });
 
-// Start the server
+// Start the server only when running locally, not in Vercel serverless
 const PORT = parseInt(config.port) || 8000;
 
-app.listen(PORT, () => {
-  console.log(`Controller backend (TypeScript) listening on port ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/healthz`);
-  console.log(`API: http://localhost:${PORT}/api/public/status`);
-});
+// Export for Vercel serverless
+if (process.env.VERCEL || process.argv[1]?.includes('vercel')) {
+  // Vercel will handle the server
+  console.log('Running in Vercel serverless mode');
+} else {
+  app.listen(PORT, () => {
+    console.log(`Controller backend (TypeScript) listening on port ${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/healthz`);
+    console.log(`API: http://localhost:${PORT}/api/public/status`);
+  });
+}
 
 export default app;

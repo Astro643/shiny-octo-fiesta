@@ -1,8 +1,32 @@
 {
-  "rewrites": [
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
+      "src": "frontend/package.json",
+      "use": "@vercel/next",
+      "config": {
+        "installCommand": "npm install",
+        "buildCommand": "npm run build"
+      }
+    },
+    {
+      "src": "backend-ts/package.json",
+      "use": "@vercel/node",
+      "config": {
+        "installCommand": "npm install",
+        "buildCommand": "npm run build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend-ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend"
     }
   ]
 }
