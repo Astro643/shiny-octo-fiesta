@@ -3,28 +3,37 @@
  * POST /api/cancel/:command_id
  * 
  * Cancels a waiting command.
+ * Edge Function: Fast cancellation operation
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest } from 'next';
 
 interface CancelResponse {
   ok: boolean;
 }
 
+export const config = {
+  runtime: 'edge', // Edge runtime for fast operation
+};
+
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<CancelResponse | { detail: string }>
+  req: NextApiRequest
 ) {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ detail: 'Method Not Allowed' });
+    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
+      status: 405,
+      headers: { 'Allow': 'POST', 'Content-Type': 'application/json' },
+    });
   }
 
   try {
     const { command_id } = req.query;
     
     if (!command_id || typeof command_id !== 'string') {
-      return res.status(400).json({ detail: 'Command ID is required.' } as any);
+      return new Response(JSON.stringify({ detail: 'Command ID is required.' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     // In production, this would:
@@ -37,9 +46,15 @@ export default function handler(
       ok: true,
     };
 
-    return res.status(200).json(response);
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (err) {
     console.error('Cancel error:', err);
-    return res.status(500).json({ detail: 'Could not cancel that request.' } as any);
+    return new Response(JSON.stringify({ detail: 'Could not cancel that request.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

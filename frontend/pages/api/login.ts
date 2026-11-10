@@ -4,18 +4,23 @@
  * 
  * Authenticates the user and sets the session cookie.
  * In production, this would be called by the bot to generate a signed link.
+ * Edge Function: Fast authentication
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { serialize } from 'cookie';
+import type { NextApiRequest } from 'next';
+
+export const config = {
+  runtime: 'edge', // Edge runtime for fast authentication
+};
 
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<{ ok: boolean } | { detail: string }>
+  req: NextApiRequest
 ) {
   if (req.method !== 'GET') {
-    res.setHeader('Allow', ['GET']);
-    return res.status(405).json({ detail: 'Method Not Allowed' });
+    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
+      status: 405,
+      headers: { 'Allow': 'GET', 'Content-Type': 'application/json' },
+    });
   }
 
   try {
@@ -25,19 +30,24 @@ export default function handler(
     // 3. Redirect to the dashboard
     
     // For now, set a mock session cookie
-    const guildId = req.query.guild_id as string || 'mock-guild-id';
+    // Note: Edge functions cannot set cookies with Set-Cookie header directly
+    // This is a limitation we need to work around
+    const guildId = req.nextUrl.searchParams.get('guild_id') || 'mock-guild-id';
     
-    res.setHeader('Set-Cookie', serialize('session_guild_id', guildId, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 12, // 12 hours
-      path: '/',
-    }));
-
-    return res.status(200).json({ ok: true });
+    // For Edge functions, we return the cookie in a custom header
+    // The frontend can then set it using document.cookie
+    return new Response(JSON.stringify({ ok: true, guildId }), {
+      status: 200,
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-Session-Guild-Id': guildId,
+      },
+    });
   } catch (err) {
     console.error('Login error:', err);
-    return res.status(500).json({ detail: 'Could not authenticate.' } as any);
+    return new Response(JSON.stringify({ detail: 'Could not authenticate.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

@@ -3,21 +3,27 @@
  * POST /api/session/leave
  * 
  * Called when the user closes the console to free up the agent.
+ * Edge Function: Fast cleanup operation
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest } from 'next';
 
 interface LeaveResponse {
   ok: boolean;
 }
 
+export const config = {
+  runtime: 'edge', // Edge runtime for fast operation
+};
+
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<LeaveResponse | { detail: string }>
+  req: NextApiRequest
 ) {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ detail: 'Method Not Allowed' });
+    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
+      status: 405,
+      headers: { 'Allow': 'POST', 'Content-Type': 'application/json' },
+    });
   }
 
   try {
@@ -30,9 +36,15 @@ export default function handler(
       ok: true,
     };
 
-    return res.status(200).json(response);
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (err) {
     console.error('Leave error:', err);
-    return res.status(500).json({ detail: 'Could not process leave request.' } as any);
+    return new Response(JSON.stringify({ detail: 'Could not process leave request.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

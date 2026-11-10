@@ -3,21 +3,27 @@
  * POST /api/session/new
  * 
  * Called when starting a new conversation.
+ * Edge Function: Fast session initialization
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest } from 'next';
 
 interface NewResponse {
   ok: boolean;
 }
 
+export const config = {
+  runtime: 'edge', // Edge runtime for fast operation
+};
+
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<NewResponse | { detail: string }>
+  req: NextApiRequest
 ) {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ detail: 'Method Not Allowed' });
+    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
+      status: 405,
+      headers: { 'Allow': 'POST', 'Content-Type': 'application/json' },
+    });
   }
 
   try {
@@ -30,9 +36,15 @@ export default function handler(
       ok: true,
     };
 
-    return res.status(200).json(response);
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (err) {
     console.error('New session error:', err);
-    return res.status(500).json({ detail: 'Could not start new session.' } as any);
+    return new Response(JSON.stringify({ detail: 'Could not start new session.' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

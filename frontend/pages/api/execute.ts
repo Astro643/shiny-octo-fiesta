@@ -3,10 +3,18 @@
  * POST /api/execute
  * 
  * Queues a command for execution after preview approval.
+ * 
+ * Serverless Function: Needs to start workflows
  */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuidv4 } from 'uuid';
+
+// Explicitly set as serverless for workflow operations
+export const config = {
+  runtime: 'nodejs', // Serverless Node.js runtime
+  // Needs full Node.js environment for workflow operations
+};
 
 interface ExecuteRequest {
   prompt: string;

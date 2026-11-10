@@ -4,9 +4,19 @@
  * 
  * Generates a preview plan for a given prompt without executing it.
  * This is the "dry run" feature from Task 3.
+ * 
+ * Serverless Function: Needs AI calls (9-second timeout)
  */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+
+// Explicitly set as serverless (default, but good to be clear)
+// This allows 60-second timeout for AI operations
+export const config = {
+  runtime: 'nodejs', // Serverless Node.js runtime (default)
+  // Note: For AI operations, we need the full Node.js environment
+  // Edge runtime doesn't support AI SDKs and has shorter timeout
+};
 
 interface PreviewStep {
   turn: number;

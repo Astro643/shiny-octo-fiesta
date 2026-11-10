@@ -3,9 +3,10 @@
  * POST /api/session/ping
  * 
  * Checks if the session is still active and returns the current state.
+ * Edge Function: Fast session validation
  */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest } from 'next';
 
 interface SessionPingResponse {
   state: string;
@@ -15,13 +16,18 @@ interface SessionPingResponse {
   waiting?: number;
 }
 
+export const config = {
+  runtime: 'edge', // Edge runtime for fast session check
+};
+
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<SessionPingResponse | { detail: string }>
+  req: NextApiRequest
 ) {
   if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ detail: 'Method Not Allowed' });
+    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
+      status: 405,
+      headers: { 'Allow': 'POST', 'Content-Type': 'application/json' },
+    });
   }
 
   // In production, this would check the session cookie
@@ -31,5 +37,8 @@ export default function handler(
     agent: 1,
   };
 
-  return res.status(200).json(response);
+  return new Response(JSON.stringify(response), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
