@@ -3,10 +3,10 @@
  * POST /api/session/ping
  * 
  * Checks if the session is still active and returns the current state.
- * Edge Function: Fast session validation
+ * Standard Node.js Vercel Function (Fluid Compute)
  */
 
-import type { NextApiRequest } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface SessionPingResponse {
   state: string;
@@ -16,29 +16,26 @@ interface SessionPingResponse {
   waiting?: number;
 }
 
-export const config = {
-  runtime: 'edge', // Edge runtime for fast session check
-};
-
 export default function handler(
-  req: NextApiRequest
+  req: NextApiRequest,
+  res: NextApiResponse<SessionPingResponse | { detail: string }>
 ) {
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
-      status: 405,
-      headers: { 'Allow': 'POST', 'Content-Type': 'application/json' },
-    });
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ detail: 'Method Not Allowed' });
   }
 
-  // In production, this would check the session cookie
-  // For now, return a mock active response
-  const response: SessionPingResponse = {
-    state: 'active',
-    agent: 1,
-  };
+  try {
+    // In production, this would check the session cookie
+    // For now, return a mock active response
+    const response: SessionPingResponse = {
+      state: 'active',
+      agent: 1,
+    };
 
-  return new Response(JSON.stringify(response), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+    return res.status(200).json(response);
+  } catch (err) {
+    console.error('Ping error:', err);
+    return res.status(500).json({ detail: 'Service unavailable' });
+  }
 }

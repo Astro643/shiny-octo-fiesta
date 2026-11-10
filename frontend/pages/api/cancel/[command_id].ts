@@ -3,37 +3,29 @@
  * POST /api/cancel/:command_id
  * 
  * Cancels a waiting command.
- * Edge Function: Fast cancellation operation
+ * Standard Node.js Vercel Function (Fluid Compute)
  */
 
-import type { NextApiRequest } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface CancelResponse {
   ok: boolean;
 }
 
-export const config = {
-  runtime: 'edge', // Edge runtime for fast operation
-};
-
 export default function handler(
-  req: NextApiRequest
+  req: NextApiRequest,
+  res: NextApiResponse<CancelResponse | { detail: string }>
 ) {
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
-      status: 405,
-      headers: { 'Allow': 'POST', 'Content-Type': 'application/json' },
-    });
+    res.setHeader('Allow', ['POST']);
+    return res.status(405).json({ detail: 'Method Not Allowed' });
   }
 
   try {
     const { command_id } = req.query;
     
     if (!command_id || typeof command_id !== 'string') {
-      return new Response(JSON.stringify({ detail: 'Command ID is required.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return res.status(400).json({ detail: 'Command ID is required.' });
     }
 
     // In production, this would:
@@ -46,15 +38,9 @@ export default function handler(
       ok: true,
     };
 
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(200).json(response);
   } catch (err) {
     console.error('Cancel error:', err);
-    return new Response(JSON.stringify({ detail: 'Could not cancel that request.' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(500).json({ detail: 'Could not cancel that request.' });
   }
 }

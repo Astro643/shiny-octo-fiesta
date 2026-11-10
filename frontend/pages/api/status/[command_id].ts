@@ -3,10 +3,10 @@
  * GET /api/status/:command_id
  * 
  * Returns the current status of a command.
- * Edge Function: Fast status lookup
+ * Standard Node.js Vercel Function (Fluid Compute)
  */
 
-import type { NextApiRequest } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface StatusResponse {
   status: string;
@@ -15,41 +15,29 @@ interface StatusResponse {
 }
 
 // Mock status tracker - in production, this would query Redis
-// Note: Edge functions have limited storage, so this is simplified
 const mockStatuses: Record<string, StatusResponse> = {};
 
-export const config = {
-  runtime: 'edge', // Edge runtime for fast status lookup
-};
-
 export default function handler(
-  req: NextApiRequest
+  req: NextApiRequest,
+  res: NextApiResponse<StatusResponse | { detail: string }>
 ) {
   if (req.method !== 'GET') {
-    return new Response(JSON.stringify({ detail: 'Method Not Allowed' }), {
-      status: 405,
-      headers: { 'Allow': 'GET', 'Content-Type': 'application/json' },
-    });
+    res.setHeader('Allow', ['GET']);
+    return res.status(405).json({ detail: 'Method Not Allowed' });
   }
 
   try {
     const { command_id } = req.query;
     
     if (!command_id || typeof command_id !== 'string') {
-      return new Response(JSON.stringify({ detail: 'Command ID is required.' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return res.status(400).json({ detail: 'Command ID is required.' });
     }
 
     // In production, this would query Redis for the status
     // For now, generate a mock response
     // If we've seen this command before, return its status
     if (mockStatuses[command_id]) {
-      return new Response(JSON.stringify(mockStatuses[command_id]), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return res.status(200).json(mockStatuses[command_id]);
     }
 
     // Simulate processing
@@ -72,15 +60,9 @@ export default function handler(
     // Store for future requests
     mockStatuses[command_id] = response;
 
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(200).json(response);
   } catch (err) {
     console.error('Status error:', err);
-    return new Response(JSON.stringify({ detail: 'Could not retrieve status.' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(500).json({ detail: 'Could not retrieve status.' });
   }
 }
