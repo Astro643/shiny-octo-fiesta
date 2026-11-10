@@ -2,9 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Enable experimental server actions for better Vercel integration
-  experimental: {
-    serverActions: true,
+  // Server Actions are stable in Next.js v16
+  serverActions: {
+    bodySizeLimit: '2mb',
   },
   // Vercel will handle API routes automatically
   // No need for rewrites in production - API routes will be handled by Next.js
